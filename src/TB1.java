@@ -4,6 +4,7 @@
 */
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class TB1{
@@ -19,20 +20,7 @@ public class TB1{
         this.n = n;
     }
 
-    public static double[][] convertStringToDouble(String[][] dataString){
-    // Fungsi untuk mengubah matriks string menjadi matriks double
-        double[][] dataDouble = new double[dataString.length][(dataString[dataString.length-1]).length];
-
-        for (int i = 0; i < dataDouble.length; i++){
-            for (int j = 0; j < dataDouble[i].length; j++){
-                dataDouble[i][j] = Double.parseDouble(dataString[i][j]);
-            }
-        }
-
-        return dataDouble;
-    }
-
-    public static String[][] parseData(String lines){
+    public static TB1 parseData(String lines){
     // Fungsi untuk melakukan parsing matriks yang diinput baik dari file maupun dari keyboard
 
         // Untuk antar baris digunakan delimiter \0, untuk antar kolom digunakan delimiter spasi
@@ -40,7 +28,7 @@ public class TB1{
         String[] tempData = parsedText[parsedText.length-parsedText.length].split(" ");
 
         // Variabel tempMatriks = variabel yang berisi matriks string yang akan di return
-        String[][] tempMatriks = new String[parsedText.length][tempData.length];
+        double[][] tempMatriks = new double[parsedText.length][tempData.length];
         int i = 0;
 
         // Iterasi setiap baris string yang sudah di split berdasarkan \0 untuk di split berdasarkan spasi
@@ -49,12 +37,12 @@ public class TB1{
             String[] temp2 = temp.split(" ");
 
             for (int j = 0; j < temp2.length; j++){
-                tempMatriks[i][j] = temp2[j];
+                tempMatriks[i][j] = Double.parseDouble(temp2[j]);
             }
             i++;
         }
 
-        return tempMatriks;
+        return (new TB1(tempMatriks.length,(tempMatriks[tempMatriks.length-1]).length,tempMatriks));
     }
 
     public static String getInput(int type){
@@ -213,8 +201,7 @@ public class TB1{
             }
         }
 
-        String[][] matriksData = parseData(lines);
-        mainTB1 = new TB1(matriksData.length,(matriksData[matriksData.length-1]).length,convertStringToDouble(matriksData));
+        mainTB1 = parseData(lines);
 
         for (int i = 0; i < mainTB1.m; i++){
             for (int j = 0; j < mainTB1.n; j++){
