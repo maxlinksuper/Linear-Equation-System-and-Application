@@ -89,6 +89,7 @@ public class TB1{
                         }
 
                         bf.close();
+                        System.out.println("Pembacaan file sukses.\n");
                         break;
                     } catch (FileNotFoundException e){  // File tidak ada
                         System.out.println("ERROR Tidak ada file dengan nama tersebut.");
@@ -169,6 +170,7 @@ public class TB1{
         TB1 mainTB1 = new TB1(0,0,null);
 
         String lines = "";
+        int type = 0;
 
         while (true){
             System.out.print("MENU UTAMA\n" +
@@ -196,6 +198,7 @@ public class TB1{
                     break;
             }
 
+            type = input;
             if (!(lines.equals(""))){
                 break;
             }
@@ -203,11 +206,88 @@ public class TB1{
 
         mainTB1 = parseData(lines);
 
-        for (int i = 0; i < mainTB1.m; i++){
-            for (int j = 0; j < mainTB1.n; j++){
-                System.out.print((mainTB1.matriks)[i][j] + " ");
+        while (true){
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.print("PILIHAN MENU\n" +
+                "1. Lihat persamaan\n" +
+                "2. Pecahkan masalah!\n" +
+                "3. Ganti file\n" +
+                "4. Keluar\n" +
+                "Pilihan menu (1/2/3/4) : ");
+            int input = scanner.nextInt();
+
+            System.out.println("\n\n");
+            switch (input){
+                case 1:
+                    if (type == 1){
+                        System.out.println("Persamaan : Sistem Persamaan Liner");
+                    } else {
+                        System.out.println("Persamaan : Interpolasi");
+                    }
+
+                    for (int i = 0; i < mainTB1.m; i++){
+                        for (int j = 0; j < mainTB1.n; j++){
+                            System.out.print((mainTB1.matriks)[i][j] + " ");
+                        }
+                        System.out.println();
+                    }
+
+                    System.out.println();
+                    break;
+                case 2:
+                    System.out.print("TEKNIK ELIMINASI\n" + 
+                        "1. Eliminasi Gauss\n" + 
+                        "2. Eliminasi Gauss-Jordan\n" + 
+                        "3. Kembali\n" + 
+                        "Pilihan menu (1/2/3) : ");
+
+                    input = scanner.nextInt();
+                    switch (input){
+                        case 1:
+                            System.out.println("GAUSS");
+                            break;
+                        case 2:
+                            System.out.println("GAUSS JORDAN");
+                            break;
+                        case 3:
+                            break;
+                        default:
+                            System.out.println("ERROR Pilihan menu salah");
+                            break;
+                    }
+                    break;
+                case 3:
+                    System.out.print("1. Sistem Persamaan Linier\n" +
+                        "2. Interpolasi\n" +
+                        "3. Kembali\n" +
+                        "Pilihan menu (1/2/3) : ");
+
+                    input = scanner.nextInt();
+                    switch (input){
+                        case 1:
+                            lines = getInput(1);
+                            mainTB1 = parseData(lines);
+                            break;
+                        case 2:
+                            lines = getInput(2);
+                            mainTB1 = parseData(lines);
+                            break;
+                        case 3:
+                            break;
+                        default:
+                            System.out.println("ERROR Pilihan menu salah. Menggunakan data sebelumnya");
+                            break;
+                    }
+
+                    type = input;
+                    break;
+                case 4:
+                    System.exit(0);
+                default:
+                    System.out.println("ERROR Pilihan menu salah");
+                    break;
             }
-            System.out.println();
         }
     }
 }
